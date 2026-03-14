@@ -364,6 +364,9 @@ const getAllData = async (inputData, messageType) => {
 currentBrowser.runtime.onInstalled.addListener(async () => {
     //div settings
     await currentBrowser.storage.local.set({
+        showMatchInfo: true
+    });
+    await currentBrowser.storage.local.set({
         showETF2L: true
     });
     await currentBrowser.storage.local.set({

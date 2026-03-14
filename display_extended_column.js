@@ -21,6 +21,8 @@ const sendMessageAndWait = async (type, inputData) =>
         inputData
     })
 
+const getShowMatchInfoFlag = async () => (await currentBrowser.storage.local.get("showMatchInfo"))
+    .showMatchInfo;
 const getShowETF2LNameFlag = async () => (await currentBrowser.storage.local.get("showETF2LName"))
     .showETF2LName;
 const getShowETF2LTeamFlag = async () => (await currentBrowser.storage.local.get("showETF2LTeam"))
@@ -1473,6 +1475,7 @@ const getMatchData = async (playersInLog, logTime, gamemode, logID) => {
 }
 
 const showMatchInfo = async (playerRows) => {
+    if (!(await getShowMatchInfoFlag())) return;
     const arrayOfPlayerRows = [...playerRows];
     const listOfSteamIDs = arrayOfPlayerRows.map((playerRow) => playerRow.id.split("_")[1]);
 

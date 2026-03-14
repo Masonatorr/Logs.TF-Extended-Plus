@@ -3,6 +3,12 @@ const currentBrowser = isFirefox ? browser : chrome;
 const disabledColorDarkmode = "#bbbbbb"
 const disabledColorLightmode = "#444444"
 
+async function setMatchInfoValue(newValue) {
+    await currentBrowser.storage.local.set({
+        showMatchInfo: newValue
+    });
+}
+
 async function setETF2LValue(newValue) {
     await currentBrowser.storage.local.set({
         showETF2L: newValue
@@ -243,6 +249,12 @@ async function setShowClassesPlayed(newValue) {
     });
 }
 
+async function populateMatchInfoCheckbox(matchInfoInput) {
+    const showMatchInfo = await currentBrowser.storage.local.get("showMatchInfo");
+    const value = showMatchInfo.showMatchInfo;
+    matchInfoInput.checked = value;
+}
+
 async function populateETF2LCheckbox(etf2lInput) {
     const showETF2L = await currentBrowser.storage.local.get("showETF2L");
     const value = showETF2L.showETF2L;
@@ -395,6 +407,7 @@ async function populateShowClassesPlayed(showClassesPlayedInput) {
 
 document.addEventListener("DOMContentLoaded", async () => {
     //const etf2lInput = document.getElementById("etf2l-input");
+    const matchInfoInput = document.getElementById("match-info-input");
     const etf2lNameInput = document.getElementById("etf2l-name-input");
     const etf2lTeamInput = document.getElementById("etf2l-team-input");
     const etf2lDivisionInput = document.getElementById("etf2l-division-input");
@@ -424,6 +437,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     populateThemeToggle(themeInput, document);
 
    // populateETF2LCheckbox(etf2lInput);
+    populateMatchInfoCheckbox(matchInfoInput);
     populateETF2LNameCheckbox(etf2lNameInput);
     populateETF2LTeamCheckbox(etf2lTeamInput);
     populateETF2LDivisionCheckbox(etf2lDivisionInput);
@@ -447,6 +461,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     populateProfileDropdownToggle(profileDropdownInput, document);
 
     //etf2lInput.addEventListener("change", (e) => setETF2LValue(e.target.checked));
+    matchInfoInput.addEventListener("change", (e) => setMatchInfoValue(e.target.checked));
     etf2lNameInput.addEventListener("change", (e) => setETF2LNameValue(e.target.checked));
     etf2lTeamInput.addEventListener("change", (e) => setETF2LTeamValue(e.target.checked));
     etf2lDivisionInput.addEventListener("change", (e) => setETF2LDivisionValue(e.target.checked));
